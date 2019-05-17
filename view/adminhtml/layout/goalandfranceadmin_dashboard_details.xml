@@ -1,0 +1,17 @@
+<?xml version="1.0"?>
+<page xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+      xsi:noNamespaceSchemaLocation="urn:magento:framework:View/Layout/etc/page_configuration.xsd">
+    <head>
+        <title>Alpia PIM / Dashboard</title>
+        <css src="Goalandfrance_AlpiaImport::css/styles.css"/>
+    </head>
+    <body>
+        <uiComponent name="dashboard_details_toolbar"/>
+        <referenceContainer name="content">
+            <block
+                    class="Goalandfrance\AlpiaImport\Block\Adminhtml\Details"
+                    name="dashboard_details"
+                    template="Goalandfrance_AlpiaImport::dashboard/details.phtml"/>
+        </referenceContainer>
+    </body>
+</page>

@@ -1,0 +1,13 @@
+<?xml version="1.0"?>
+<config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xsi:noNamespaceSchemaLocation="urn:magento:framework:Acl/etc/acl.xsd">
+    <acl>
+        <resources>
+            <resource id="Magento_Backend::admin" >
+                <resource id="Goalandfrance_AlpiaImport::alpiaImportMainMenu" title="Alpia Import Main Menu">
+                    <resource id="Goalandfrance_AlpiaImport::alpiaDashboard" title="Import data and view history" sortOrder="10" />
+                </resource>
+            </resource>
+        </resources>
+    </acl>
+</config>

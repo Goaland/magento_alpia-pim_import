@@ -1,0 +1,122 @@
+<?php
+/**
+ * @var \Goalandfrance\AlpiaImport\Block\Adminhtml\Details $block
+ */
+$data = $block->getData();
+if (!$data['success']) {
+    ?>
+    <div class="goalandfrance">
+        <div class="dashboard-container row">
+            <p><strong>Error: invalid configuration</strong></p>
+            <p>The configuration of Alpia PIM extension is not complete. In order to use the dashboard, please configure properly the Api endpoint URL, application Key and user Key of Alpia PIM.</p>
+            <p><a href="<?php echo $block->escapeUrl($block->getConfigUrl()); ?>">Open configuration</p>
+        </div>
+    </div>
+    <?php
+} else {
+    $history_details = $data['history_details'];
+
+    $date = $block->formatDate(
+        new DateTime($history_details['date']),
+        \IntlDateFormatter::MEDIUM,
+        true
+    );
+
+    $alpiaLoginUrl = $history_details['alpia_login_url'];
+    ?>
+    <div class="goalandfrance">
+        <div id="container" class="main-col">
+            <section class="admin__page-section history-details">
+                <div class="admin__page-section-title">
+                    <span class="title"><?php echo __('Summary'); ?></span>
+                </div>
+                <div class="admin__page-section-content">
+                    <div class="history-section-item history-details-left">
+                        <table class="admin__table-secondary history-details-table-left">
+                            <tbody>
+                            <tr>
+                                <th><?php echo __('Date'); ?></th>
+                                <td><?php echo $block->escapeHtml($date); ?></td>
+                            </tr>
+                            <tr>
+                                <th><?php echo __('Status'); ?></th>
+                                <td><?php echo $block->escapeHtml($history_details['status']); ?></td>
+                            </tr>
+                            <tr>
+                                <th><?php echo __('Author'); ?></th>
+                                <td><?php echo $block->escapeHtml($history_details['user']); ?></td>
+                            </tr>
+                            </tbody>
+                        </table>
+                    </div>
+
+                    <div class="history-section-item history-details-right">
+                        <table class="admin__table-secondary history-details-table-right">
+                            <tbody>
+                            <tr>
+                                <th><?php echo __('Products'); ?></th>
+                                <td><?php echo $block->escapeHtml($history_details['product_count']); ?></td>
+                            </tr>
+                            <tr>
+                                <th><?php echo __('Warnings'); ?></th>
+                                <td><?php echo $block->escapeHtml($history_details['warn_count']); ?></td>
+                            </tr>
+                            <tr>
+                                <th><?php echo __('Error'); ?></th>
+                                <td><?php echo $block->escapeHtml($history_details['error_count']); ?></td>
+                            </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </section>
+            <section class="admin__page-section  product-list">
+                <div class="admin__page-section-title">
+                    <span class="title"><?php echo __('Imported products list'); ?></span>
+                </div>
+
+                <div class="admin__page-section-content">
+                    <table class="admin__table-primary dashboard-data">
+                        <thead>
+                        <tr class="headings">
+                            <?php
+                            foreach ($history_details['product_list']['titles'] as $title) {
+                                ?>
+                                <th><?php echo $block->escapeHtml($title); ?></th>
+                                <?php
+                            }
+                            ?>
+                        </tr>
+                        </thead>
+                        <tbody>
+                        <?php
+                        $class = "odd";
+                        foreach ($history_details['product_list']['values'] as $values) {
+                            $class = ($class == "even") ? "odd" : "even";
+                            echo '<tr class="' . $class . '">';
+                            foreach ($values as $i => $value) {
+                                echo '<td class="col-text">';
+                                switch ($i) {
+                                    case 0:
+                                        echo $block->getSkuLink($value);
+                                        break;
+                                    case 1:
+                                        echo $block->getAlpiaPimLink($value);
+                                        break;
+                                    default:
+                                        echo $block->escapeHtml($value);
+                                }
+                                echo '</td>';
+                            }
+                            echo '</tr>';
+                        }
+                        ?>
+                        </tbody>
+                    </table>
+                </div>
+            </section>
+        </div>
+    </div>
+    <?php
+}
+?>

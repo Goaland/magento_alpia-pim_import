@@ -1,0 +1,121 @@
+<?php
+/**
+ * @var \Goalandfrance\AlpiaImport\Block\Adminhtml\Index $block
+ */
+$data = $block->getData();
+
+if (!$data['success']) {
+    ?>
+    <div class="goalandfrance">
+        <div class="dashboard-container row">
+            <p><strong>Error: invalid configuration</strong></p>
+            <p>The configuration of Alpia PIM extension is not complete. In order to use the dashboard, please configure properly the Api endpoint URL, application Key and user Key of Alpia PIM.</p>
+            <p><a href="<?php echo $block->escapeUrl($block->getConfigUrl()); ?>">Open configuration</p>
+        </div>
+    </div>
+    <?php
+} else {
+
+    $count = $data['status']['product_count'];
+
+    $lastImport = '';
+    if (strlen($data['status']['last_export_date']) > 0) {
+        $lastImport = $block->formatDate(
+            new DateTime($data['status']['last_export_date']),
+            \IntlDateFormatter::MEDIUM,
+            true
+        );
+    }
+    ?>
+    <div class="goalandfrance">
+        <div class="dashboard-container row">
+            <div class="dashboard-secondary col-m-4">
+                <div class="dashboard-section">
+                    <div class="dashboard-item history-item-primary">
+                        <div class="dashboard-item-title"><?php echo __('Alpia PIM Import'); ?></div>
+                        <div class="dashboard-item-content">
+                            <?php
+
+                            echo "<p><strong>" . __("Import job status:") . "</strong> ";
+                            if ($data['status']['job_status'] == 'processing') {
+                                echo __("Processing");
+                            } else {
+                                echo __("Iddle");
+                            }
+                            echo "</p>";
+
+                            echo "<p><strong>" . __("Last import:") . "</strong> ";
+                            if (strlen($lastImport) > 0) {
+                                echo $lastImport;
+                            } else {
+                                echo __("No import was made");
+                            }
+                            echo "</p>";
+
+                            echo "<p><strong>" . __("Products waiting for import:") . "</strong> ";
+                            echo '<span class="dashboard-product-count">' . $count . '</span>';
+                            echo '</p>';
+
+                            ?>
+                            <div class="dashboard-info">
+                                <p>Alpia PIM Import by <a href="http://www.goaland.com"><img class="logo-goaland" src="<?php echo $block->getViewFileUrl('Goalandfrance_AlpiaImport::images/goaland.jpg'); ?>"></a></p>
+                                <p>Need help? <a href="https://www.goaland.com/contact">Contact us.</a></p>
+                                <p class="dashboard-alpia-version">Alpia PIM ver. <?php echo $data['version']; ?></p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="dashboard-primary col-m-8">
+                <div class="goalandfrance-section">
+                    <div class="dashboard-item-title"><?php echo __('Import history'); ?></div>
+                    <div class="dashboard-item-content">
+                        <span><?php echo __('20 last imports'); ?></span>
+                    </div>
+                    <table class="admin__table-primary dashboard-data">
+                        <thead>
+                        <tr class="headings">
+                            <th><?php echo __('Date'); ?></th>
+                            <th><?php echo __('Status'); ?></th>
+                            <th><?php echo __('Products'); ?></th>
+                            <th><?php echo __('Warnings'); ?></th>
+                            <th><?php echo __('Error'); ?></th>
+                            <th><?php echo __('Author'); ?></th>
+                            <th></th>
+                        </tr>
+                        </thead>
+                        <tbody>
+                        <?php
+                        $class = "odd";
+                        foreach ($data['history_list'] as $historyInfo) {
+                            $class = ($class == "even") ? "odd" : "even";
+
+                            $date = $block->formatDate(
+                                new DateTime($historyInfo['date']),
+                                \IntlDateFormatter::MEDIUM,
+                                true
+                            );
+                            ?>
+                            <tr class="<?php echo $class; ?>">
+                                <td class="col-text"><?php echo $block->escapeHtml($date); ?></td>
+                                <td class="col-text"><?php echo $block->escapeHtml($historyInfo['status']); ?></td>
+                                <td class="col-text"><?php echo $block->escapeHtml($historyInfo['product_count']); ?></td>
+                                <td class="col-text"><?php echo $block->escapeHtml($historyInfo['warn_count']); ?></td>
+                                <td class="col-text"><?php echo $block->escapeHtml($historyInfo['error_count']); ?></td>
+                                <td class="col-text"><?php echo $block->escapeHtml($historyInfo['user']); ?></a></td>
+                                <td class="col-text last">
+                                    <a href="<?php echo $block->getUrl('*/dashboard/details') . 'id/' . $historyInfo['id']; ?>"><?php echo __('Details'); ?></a>
+                                </td>
+                            </tr>
+                            <?php
+                        }
+                        ?>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+    <?php
+}
+?>

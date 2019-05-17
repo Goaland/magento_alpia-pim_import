@@ -1,0 +1,50 @@
+@media all and (min-width: 768px) {
+    .history-details-left {
+        float: left;
+        width: calc((100%) * 0.5 - 30px);
+    }
+
+    .history-details-right {
+        float: right;
+        width: calc((100%) * 0.5 - 30px);
+    }
+}
+
+.history-section-content:after {
+    content: '';
+    display: table;
+    clear: both;
+}
+
+.dashboard-item-title {
+    margin-bottom: 0.6rem;
+}
+
+.dashboard-product-count {
+    color: #eb5202;
+    font-weight: bold;
+}
+
+.dashboard-info {
+    border: 1px solid #999;
+    display: inline-block;
+    padding: 1rem;
+    margin-top: 40px
+}
+
+.dashboard-info .logo-goaland {
+    width: 80px;
+    display: inline-block;
+    vertical-align: middle;
+    margin-left: 6px;
+}
+
+.dashboard-item-title {
+    margin-bottom: 2rem;
+}
+
+.dashboard-alpia-version {
+    font-size: 1rem;
+    margin-bottom: 0;
+    color: #888
+}

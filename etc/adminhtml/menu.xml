@@ -1,0 +1,28 @@
+<!--
+    action: route of the action (see "routes.xml")
+    resource: used by the ACL to generate right / group admin
+-->
+<config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xsi:noNamespaceSchemaLocation="urn:magento:module:Magento_Backend:etc/menu.xsd">
+    <menu>
+        <add id="Goalandfrance_AlpiaImport::alpiaImportMainMenu"
+             title="Alpia PIM"
+             module="Goalandfrance_AlpiaImport"
+             sortOrder="20"
+             resource="Goalandfrance_AlpiaImport::alpiaImportMainMenu"/>
+        <add id="Goalandfrance_AlpiaImport::alpiaDashboard"
+             title="Dashboard"
+             module="Goalandfrance_AlpiaImport"
+             sortOrder="10"
+             parent="Goalandfrance_AlpiaImport::alpiaImportMainMenu"
+             action="goalandfranceAdmin/dashboard"
+             resource="Goalandfrance_AlpiaImport::alpiaDashboard"/>
+        <add id="Goalandfrance_AlpiaImport::configuration"
+             title="Configuration"
+             module="Goalandfrance_AlpiaImport"
+             sortOrder="20"
+             parent="Goalandfrance_AlpiaImport::alpiaImportMainMenu"
+             action="adminhtml/system_config/edit/section/goalandfranceAdmin"
+             resource="Goalandfrance_AlpiaImport::configuration"/>
+    </menu>
+</config>
